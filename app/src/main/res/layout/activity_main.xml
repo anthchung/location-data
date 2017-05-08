@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.anthony.demo.MainActivity">
+
+    <Button
+        android:id="@+id/ButtonNetwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="locationButtonClick"
+        android:text="Get network location" />
+
+    <TextView
+        android:id="@+id/networkLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ButtonNetwork"
+        android:text="Network Location (degrees):"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/networkLocationData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/networkLocation"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/acc1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/networkLocationData"
+        android:text="Accuracy (m): "
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/networkAcc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/acc1"
+        android:layout_toRightOf="@id/acc1"
+        android:text=""
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/ButtonGPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/acc1"
+        android:text="Get GPS Location" />
+
+    <TextView
+        android:id="@+id/gpsLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ButtonGPS"
+        android:text="GPS location (degrees):"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/gpsLocationData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gpsLocation"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/acc2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gpsLocationData"
+        android:text="Accuracy (m): "
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/gpsAcc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/acc2"
+        android:layout_toRightOf="@id/acc2"
+        android:text=""
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/ButtonFused"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/acc2"
+        android:text="Get fused location" />
+
+    <TextView
+        android:id="@+id/fusedLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ButtonFused"
+        android:text="Fused Location (degrees):"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/fusedLocationData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fusedLocation"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/acc3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fusedLocationData"
+        android:text="Accuracy (m): "
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/fusedAcc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/acc3"
+        android:layout_toRightOf="@id/acc3"
+        android:text=""
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/startLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ButtonNetwork"
+        android:layout_alignBottom="@+id/ButtonNetwork"
+        android:layout_toEndOf="@+id/ButtonNetwork"
+        android:text="Start Log" />
+
+    <TextView
+        android:id="@+id/statusLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/startLog"
+        android:layout_toRightOf="@id/startLog" />
+    <Button
+        android:id="@+id/walkLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start walk"
+        android:layout_toRightOf="@id/statusLog"/>
+    <Button
+        android:id="@+id/outputLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="output"
+        android:layout_alignTop="@+id/networkLocation"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
