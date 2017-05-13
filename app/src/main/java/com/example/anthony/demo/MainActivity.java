@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         textFused = (TextView) findViewById(R.id.fusedLocationData);
         textFusedAcc = (TextView) findViewById(R.id.fusedAcc);
 
-        startLog = (Button) findViewById(R.id.startLog);
         statusLog = (TextView) findViewById(R.id.statusLog);
         walkLog = (Button) findViewById(R.id.walkLog);
         outputLog = (Button) findViewById(R.id.outputLog);
@@ -104,18 +103,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onLocationChanged(Location location) {
                 //String provider = location.getProvider();
 
-                textNetwork.setText(location.getLongitude() + "," + location.getLatitude());
+                textNetwork.setText(location.getLatitude() + "," + location.getLongitude());
                 textNetworkAcc.setText(Float.toString(location.getAccuracy()));
                 if (startFlag == 1) {
-                    curNetworkData =location.getElapsedRealtimeNanos()+ "," + location.getLongitude() + "," + location.getLatitude() + "," + Float.toString(location.getAccuracy())+ "," + Float.toString(location.getSpeed());
+                    curNetworkData =location.getElapsedRealtimeNanos()/1e9 + "," + location.getLatitude() + "," + location.getLongitude() + "," + Float.toString(location.getAccuracy())+ "," + Float.toString(location.getSpeed());
                     outputCoordinatesNetwork.add(curNetworkData);
                 }
                 mGoogleApiClient.connect();
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 if (mLastLocation != null) {
-                    textFused.setText(mLastLocation.getLongitude() + "," + mLastLocation.getLatitude());
+                    textFused.setText(mLastLocation.getLatitude() + "," + mLastLocation.getLongitude());
                     textFusedAcc.setText(Float.toString(mLastLocation.getAccuracy()));
                 }
+                locationManager.requestSingleUpdate(NETWORK_PROVIDER,listener,null);
+                locationManager.removeUpdates(listener);
+                locationManager.requestLocationUpdates(NETWORK_PROVIDER, 0, 0, listener);
             }
 
             @Override
@@ -139,16 +141,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         listenerGPS = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                textGPS.setText(location.getLongitude() + "," + location.getLatitude());
+                textGPS.setText(location.getLatitude() + "," + location.getLongitude());
                 textGPSAcc.setText(Float.toString(location.getAccuracy()));
                 if (startFlag == 1) {
-                    curGPSData =location.getElapsedRealtimeNanos()+ "," + location.getLongitude() + "," + location.getLatitude() + "," + Float.toString(location.getAccuracy())+ "," + Float.toString(location.getSpeed());
+                    curGPSData =location.getElapsedRealtimeNanos()/1e9+ "," + location.getLatitude() + "," + location.getLongitude() + "," + Float.toString(location.getAccuracy())+ "," + Float.toString(location.getSpeed());
                     outputCoordinatesGPS.add(curGPSData);
                 }
                 mGoogleApiClient.connect();
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 if (mLastLocation != null) {
-                    textFused.setText(mLastLocation.getLongitude() + "," + mLastLocation.getLatitude());
+                    textFused.setText(mLastLocation.getLatitude() + "," + mLastLocation.getLongitude());
                     textFusedAcc.setText(Float.toString(mLastLocation.getAccuracy()));
                 }
             }
@@ -212,73 +214,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mGoogleApiClient.connect();
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 if (mLastLocation != null) {
-                    textFused.setText(mLastLocation.getLongitude() + "," + mLastLocation.getLatitude());
+                    textFused.setText(mLastLocation.getLatitude() + "," + mLastLocation.getLongitude());
                     textFusedAcc.setText(Float.toString(mLastLocation.getAccuracy()));
                 }
-            }
-        });
-        startLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new CountDownTimer(61000, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        statusLog.setText("Started");
-                        curLocationData = (String) textNetwork.getText() + "," + (String) textGPS.getText() + "," + (String) textFused.getText() + ","
-                                + (String) textNetworkAcc.getText() + "," + (String) textGPSAcc.getText() + "," + (String) textFusedAcc.getText();
-                        outputCoordinates.add(curLocationData);
-                    }
-
-                    public void onFinish() {
-                        //System.out.println(outputCoordinates);
-                        statusLog.setText("Finished");
-                        FileOutputStream fos = null;
-                        try {
-
-                            File file = new File(Environment.getExternalStorageDirectory() + "/Thesis", "test.csv");
-                            fos = new FileOutputStream(file);
-                            fos.write(("Time, Network Longitude, Network Latitude, GPS Longitude, GPS Latitude, Fused Longitude, Fused Latitude, Network Accuracy, GPS Accuracy, Fused Accuracy" + "\n").getBytes());
-                            String[] outputCoordinatesString = new String[outputCoordinates.size()];
-                            for (int i = 0; i < outputCoordinates.size(); i++) {
-                                outputCoordinatesString[i] = outputCoordinates.get(i).toString();
-                                fos.write((i + "," + outputCoordinatesString[i] + "\n").getBytes());
-                            }
-                            fos.close();
-                            //fos = openFileOutput("test.txt", MODE_PRIVATE);
-                            //File file = new File(MainActivity.this.getFilesDir().getAbsolutePath() + File.separator + "test.txt");
-                            //File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "test.csv");
-
-                            /*
-                            ObjectOutputStream oos = new ObjectOutputStream(fos);
-                            oos.writeObject(outputCoordinates);
-                            System.out.println(MainActivity.this.getFilesDir().getAbsolutePath());
-                            System.out.println(MainActivity.this.getFilesDir());
-                            oos.close();
-                            */
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }.start();
             }
         });
         walkLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startFlag = 1;
+                statusLog.setText("Start");
             }
         });
         outputLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startFlag = 0;
+                statusLog.setText("Finished");
                 FileOutputStream fos = null;
                 try {
                     File file = new File(Environment.getExternalStorageDirectory() + "/Thesis", "network.csv");
                     fos = new FileOutputStream(file);
-                    fos.write(("No, Time, Network Longitude, Network Latitude, Network Accuracy, Speed" + "\n").getBytes());
+                    fos.write(("No, Time, Network Latitude, Network Longitude, Network Accuracy, Speed" + "\n").getBytes());
                     String[] outputCoordinatesString = new String[outputCoordinatesNetwork.size()];
                     for (int i = 0; i < outputCoordinatesNetwork.size(); i++) {
                         outputCoordinatesString[i] = outputCoordinatesNetwork.get(i).toString();
@@ -292,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 try {
                     File file = new File(Environment.getExternalStorageDirectory() + "/Thesis", "gps.csv");
                     fos2 = new FileOutputStream(file);
-                    fos2.write(("No, Time, GPS Longitude, GPS Latitude, GPS Accuracy, Speed" + "\n").getBytes());
+                    fos2.write(("No, Time, GPS Latitude, GPS Longitude, GPS Accuracy, Speed" + "\n").getBytes());
                     String[] outputCoordinatesString = new String[outputCoordinatesGPS.size()];
                     for (int i = 0; i < outputCoordinatesGPS.size(); i++) {
                         outputCoordinatesString[i] = outputCoordinatesGPS.get(i).toString();

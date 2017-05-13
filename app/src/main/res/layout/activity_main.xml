@@ -127,33 +127,21 @@
         android:textSize="16dp" />
 
     <Button
-        android:id="@+id/startLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/ButtonNetwork"
-        android:layout_alignBottom="@+id/ButtonNetwork"
-        android:layout_toEndOf="@+id/ButtonNetwork"
-        android:text="Start Log" />
-
-    <TextView
-        android:id="@+id/statusLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/startLog"
-        android:layout_toRightOf="@id/startLog" />
-    <Button
         android:id="@+id/walkLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start walk"
-        android:layout_toRightOf="@id/statusLog"/>
+        android:text="Start"
+        android:layout_toRightOf="@id/ButtonNetwork"/>
     <Button
         android:id="@+id/outputLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="output"
-        android:layout_alignTop="@+id/networkLocation"
-        android:layout_alignParentEnd="true" />
-
+        android:layout_toRightOf="@id/walkLog" />
+    <TextView
+        android:id="@+id/statusLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/acc3" />
 
 </RelativeLayout>
