@@ -115,9 +115,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     textFused.setText(mLastLocation.getLatitude() + "," + mLastLocation.getLongitude());
                     textFusedAcc.setText(Float.toString(mLastLocation.getAccuracy()));
                 }
-                locationManager.requestSingleUpdate(NETWORK_PROVIDER,listener,null);
                 locationManager.removeUpdates(listener);
                 locationManager.requestLocationUpdates(NETWORK_PROVIDER, 0, 0, listener);
+                locationManager.requestSingleUpdate(NETWORK_PROVIDER,listener,null);
             }
 
             @Override
